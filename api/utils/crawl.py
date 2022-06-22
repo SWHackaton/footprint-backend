@@ -1,6 +1,9 @@
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+
 import time
 
 
@@ -15,7 +18,9 @@ def make_options():
 #make_driver() returns Webdriver 
 def make_driver():
     chrome_options = make_options()
-    driver = webdriver.Chrome('./chromedriver.exe',options=chrome_options)
+#    driver = webdriver.Chrome('./chromedriver.exe',options=chrome_options)
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
+    return driver
     return driver
 
 
