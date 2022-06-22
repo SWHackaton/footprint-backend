@@ -19,3 +19,4 @@ typing_extensions==4.2.0
 urllib3==1.26.9
 uvicorn==0.17.6
 selenium==4.2.0
+webdriver-manager==3.7.0
