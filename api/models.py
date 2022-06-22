@@ -46,4 +46,3 @@ class Store(Base):
     map_id = Column("map_id",String(30),ForeignKey("address_tbl.map_id"))
     store_name = Column("store_name",String(100))
     category = Column("category",String(100))
-
