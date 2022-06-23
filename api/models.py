@@ -18,16 +18,6 @@ class Address(Base):
     map_id = Column("map_id", String(30), primary_key=True)
     addr = Column("addr", String(100))
 
-class Diary(Base):
-    __tablename__ = "diary_tbl"
-
-    diary_id = Column("diary_id",Integer,autoincrement=True,primary_key=True)
-    user_id = Column("user_id",String(30),ForeignKey("user_tbl.user_id"))
-    visit_id = Column("visit_id",String(30),ForeignKey("visit_tbl.visit_id"))
-    content = Column("content",String(1000),nullable=True)
-    photo = Column("photo",String(100),nullable=True)
-    visible = Column("visible",Boolean,default=False)
-
 class Visit(Base):
     __tablename__ = "visit_tbl"
     visit_id = Column("visit_id",Integer,autoincrement=True,primary_key=True)
@@ -37,6 +27,16 @@ class Visit(Base):
     start_datetime = Column("start_datetime",DateTime)
     end_datetime = Column("end_datetime",DateTime,nullable=True)
     is_diary = Column("is_diary",Boolean,default=False)
+
+class Diary(Base):
+    __tablename__ = "diary_tbl"
+
+    diary_id = Column("diary_id",Integer,autoincrement=True,primary_key=True)
+    user_id = Column("user_id",String(30),ForeignKey("user_tbl.user_id"))
+    visit_id = Column("visit_id",Integer,ForeignKey("visit_tbl.visit_id"))
+    content = Column("content",String(1000),nullable=True)
+    photo = Column("photo",String(100),nullable=True)
+    visible = Column("visible",Boolean,default=False)
     
 
 class Store(Base):
