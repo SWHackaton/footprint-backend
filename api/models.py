@@ -17,7 +17,7 @@ class Address(Base):
 
     map_id = Column("map_id", String(30), primary_key=True)
     addr = Column("addr", String(100))
-    longtitude = Column("logtitude",FLOAT)
+    longitude = Column("longitude",FLOAT)
     latitude = Column("latitude",FLOAT)
 
 
@@ -52,6 +52,6 @@ class Store(Base):
     category = Column("category",String(100))
     img = Column("img",String(200))
     dong = Column("dong",String(30))
-    longtitude = Column("longtitude",FLOAT)
+    longitude = Column("longitude",FLOAT)
     latitude = Column("latitude",FLOAT)
     addr = Column("addr", String(100))
