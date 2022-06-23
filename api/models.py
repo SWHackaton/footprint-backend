@@ -30,7 +30,8 @@ class Visit(Base):
     store_name = Column("store_name",String(100),nullable=True)
     start_datetime = Column("start_datetime",DateTime)
     end_datetime = Column("end_datetime",DateTime,nullable=True)
-    is_diary = Column("is_diary",Boolean,default=False)
+    memo = Column("memo",String(100), default='')
+    is_love = Column('is_love', Boolean, default=False)
 
 class Diary(Base):
     __tablename__ = "diary_tbl"
@@ -61,6 +62,6 @@ class Review(Base):
     __tablename__ = "review_tbl"
     store_id = Column("review_id",Integer,autoincrement=True,primary_key=True)
     store_name = Column("store_name",String(100))
-    img = Column("img",String(200))
+    img = Column("img",String(500))
     addr = Column("addr", String(100))
     content = Column("content",String(2000),nullable=True)

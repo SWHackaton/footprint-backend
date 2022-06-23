@@ -28,16 +28,3 @@ def postDiary(visit_id: int, user_id: str, diary: diary_sc.Diary, db: Session=De
         "status": "OK",
         "result": db_diary
     }
-
-@router.get("/read")
-def readDiary(visit_id: int, user_id: str, db: Session=Depends(get_db)):
-    result = db.query(models.Diary).filter(
-        and_(models.Diary.visit_id == visit_id, models.Diary.user_id == user_id)).first()
-
-    if result is None:
-        raise HTTPException(status_code=404, detail="해당하는 Diary가 없습니다.")
-
-    return {
-        "status": "OK",
-        "data": result
-    }
