@@ -59,7 +59,7 @@ class Store(Base):
 
 class Review(Base):
     __tablename__ = "review_tbl"
-
+    store_id = Column("review_id",Integer,autoincrement=True,primary_key=True)
     store_name = Column("store_name",String(100))
     img = Column("img",String(200))
     addr = Column("addr", String(100))
