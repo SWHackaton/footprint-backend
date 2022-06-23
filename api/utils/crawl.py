@@ -4,8 +4,10 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 
-import time
+import time,os
 
+#BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+#CHROME_FILE = os.path.join(BASE_DIR, 'chromedriver.exe')
 
 #make_options() set Options for Chrome Driver
 def make_options():
@@ -19,7 +21,8 @@ def make_options():
 #make_driver() returns Webdriver
 def make_driver():
     chrome_options = make_options()
-#    driver = webdriver.Chrome('./chromedriver',options=chrome_options)
+#    driver = webdriver.Chrome(CHROME_FILE,options=chrome_options)
+#    driver = webdriver.Chrome('C:\\Users\\kms00\\OneDrive\\바탕 화면\\GitHub\\footprint-backend\\api\\utils\\chromedriver.exe',options=chrome_options)
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
     return driver
 
@@ -39,6 +42,35 @@ def crawl_init():
     time.sleep(0.3)
     driver.find_element_by_class_name("tit_coach").click()
     return driver
+
+
+def crawl_store_img(store_list,dong):
+    driver = make_driver()
+    driver.implicitly_wait(5)
+    url = "https://www.google.com/search?q=aa&sxsrf=ALiCzsbE-gtqyeTMVdsVUecmNpnPibFMWg:1655968979685&source=lnms&tbm=isch&sa=X&ved=2ahUKEwj97auWhcP4AhUB4GEKHVDVDl8Q_AUoAXoECAIQAw&cshid=1655968982818043&biw=1536&bih=754&dpr=1.25"
+    driver.get(url)
+    time.sleep(1)
+
+
+    for store in store_list:
+        try:
+            driver.find_element_by_id("REsRA").clear()
+            driver.find_element_by_id("REsRA").send_keys(dong + ' ' + store['store_name'])
+            driver.find_element_by_id("BIqFsb").click()
+            time.sleep(0.2)
+            driver.find_element_by_xpath('//*[@id="islrg"]/div[1]/div[1]').click()
+            time.sleep(0.7)
+            store['img'] = driver.find_element_by_xpath('//*[@id="Sva75c"]/div/div/div[3]/div[2]/c-wiz/div/div[1]/div[1]/div[3]/div/a/img').get_attribute("src")
+            if(len(store['img'])> 200):
+                store['img'] = ''
+        except:
+            store['img'] = ''
+            url = "https://www.google.com/search?q=aa&sxsrf=ALiCzsbE-gtqyeTMVdsVUecmNpnPibFMWg:1655968979685&source=lnms&tbm=isch&sa=X&ved=2ahUKEwj97auWhcP4AhUB4GEKHVDVDl8Q_AUoAXoECAIQAw&cshid=1655968982818043&biw=1536&bih=754&dpr=1.25"
+            driver.get(url)
+            time.sleep(0.3)
+
+    driver.close()
+    return store_list
 
 # driver = crawl_init()
 # crwal_store(driver,address)

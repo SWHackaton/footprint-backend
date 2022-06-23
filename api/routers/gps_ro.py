@@ -6,7 +6,7 @@ from api.database import get_db
 from sqlalchemy.orm import Session
 from api.utils.coordinate import coor_to_addr
 
-from api.utils.crawl import crawl_init,crawl_store
+from api.utils.crawl import crawl_init,crawl_store,crawl_store_img
 from api.utils.coordinate import coor_to_addr
 
 from api.models import Address
@@ -28,15 +28,21 @@ async def getAdress(longtitude: float, latitude: float, user_id: str, map_id: Op
     if not map_id:
         # Address_tbl 정보 
         result = coor_to_addr(str(longtitude),str(latitude))
-        db_address = Address(map_id = result['map_id'], addr = result['address'])
+        db_address = Address(map_id = result['map_id'], addr = result['address'], longtitude = longtitude, latitude = latitude)
 
         address_check = db.query(Address).filter_by(map_id = result['map_id']).all()
         if(len(address_check) == 0):
             # store_tbl 정보 -> list
             stores = crawl_store(driver,result['address'])
+            stores = crawl_store_img(stores,result['dong'])
             db_stores = [Store(map_id = result['map_id'],
                             store_name = store['store_name'],
-                            category = store['store_category']) for store in stores ]
+                            category = store['store_category'],
+                            img = store['img'],
+                            dong = result['dong'],
+                            latitude = latitude,
+                            longtitude = longtitude) for store in stores ]
+
             db.add_all(db_stores)
             db.add(db_address)      
 
@@ -54,6 +60,7 @@ async def getAdress(longtitude: float, latitude: float, user_id: str, map_id: Op
         db.commit()
 
 
+
         return {'map_id' : result['map_id']}
         
         #위도, 경도 이용해서 위치 정보 값 찾고 db 저장(지도 api)해서 mapid 넘기기
@@ -66,14 +73,22 @@ async def getAdress(longtitude: float, latitude: float, user_id: str, map_id: Op
         return {"map_id": map_id}
 
 @router.get("/timeline")
-def getVisit(date: date, user_id: str,db: Session = Depends(get_db)):
+def getVisit(user_id: str,date: Optional[date] = None,db: Session = Depends(get_db)):
     # 그날 방문한 장소를 모두 불러와 리스트 리턴.
+    print("check date")
+    print(date)
+    if(date == None):
+        date  = datetime.today().date().isoformat()
+    date = str(date)
+
     visit_list = db.query(Visit).filter_by(user_id=user_id).all()
     result = []
-    print(date)
+
     for visit in visit_list:
-        if(date == visit.start_datetime.date()):
-            result.append(visit)
+        if(date == str(visit.start_datetime.date())):
+            address = db.query(Address).filter_by(map_id=visit.map_id).first()
+            store = db.query(Store).filter_by(map_id=visit.map_id).all()
+            result.append({"visit" : visit,"address":address,"store" : store})
 
     return result
 
@@ -84,6 +99,6 @@ def getOneStore(visit_id: int, store_name: str,db: Session = Depends(get_db)):
     visit_update.store_name = store_name
     db.add(visit_update)
     db.commit()
-    return visit_update
+    return {"status" : "1", "msg" : "ok"}
 
 
