@@ -1,6 +1,6 @@
 from email.policy import default
 from colorama import Fore
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String,DateTime
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String,DateTime ,FLOAT
 from sqlalchemy.orm import relationship
 
 from .database import Base
@@ -17,6 +17,9 @@ class Address(Base):
 
     map_id = Column("map_id", String(30), primary_key=True)
     addr = Column("addr", String(100))
+    longtitude = Column("logtitude",FLOAT)
+    latitude = Column("latitude",FLOAT)
+
 
 class Visit(Base):
     __tablename__ = "visit_tbl"
@@ -47,3 +50,5 @@ class Store(Base):
     map_id = Column("map_id",String(30),ForeignKey("address_tbl.map_id"))
     store_name = Column("store_name",String(100))
     category = Column("category",String(100))
+    img = Column("img",String(200))
+    dong = Column("dong",String(30))
