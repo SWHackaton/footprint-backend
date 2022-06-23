@@ -74,10 +74,7 @@ async def getAdress(longtitude: float, latitude: float, user_id: str, map_id: Op
         return {"map_id": map_id}
 
 @router.get("/timeline")
-def getVisit(user_id: str,date: Optional[date] = None,db: Session = Depends(get_db)):
-    # 그날 방문한 장소를 모두 불러와 리스트 리턴.
-    print("check date")
-    print(date)
+def getVisit(user_id: str, date: date = None, db: Session = Depends(get_db)):
     if(date == None):
         date  = datetime.today().date().isoformat()
     date = str(date)
