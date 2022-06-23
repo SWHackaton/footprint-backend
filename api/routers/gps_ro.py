@@ -74,7 +74,7 @@ async def getAdress(longtitude: float, latitude: float, user_id: str, map_id: Op
         return {"map_id": map_id}
 
 @router.get("/timeline")
-def getVisit(user_id: str, date: Optional[date] = None, db: Session = Depends(get_db)):
+def getVisit(user_id: str, date: date = None, db: Session = Depends(get_db)):
     if(date == None):
         date  = datetime.today().date().isoformat()
     date = str(date)
