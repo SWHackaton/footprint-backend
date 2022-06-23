@@ -51,3 +51,4 @@ class Store(Base):
     store_name = Column("store_name",String(100))
     category = Column("category",String(100))
     img = Column("img",String(200))
+    dong = Column("dong",String(30))
