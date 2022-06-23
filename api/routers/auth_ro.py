@@ -19,7 +19,7 @@ secrets = json.loads(open(SECRET_FILE).read())
 @router.get('')
 def kakao():
     REST_API_KEY = secrets['REST_API_KEY']
-    REDIRECT_URI = "http://118.67.131.34"
+    REDIRECT_URI = "http://127.0.0.1:8000"
     url = f"https://kauth.kakao.com/oauth/authorize?client_id={REST_API_KEY}&response_type=code&redirect_uri={REDIRECT_URI}"
     response = RedirectResponse(url)
     return response
@@ -28,7 +28,7 @@ def kakao():
 @router.get('/auth')
 async def kakaoAuth(response: Response, code: Optional[str]="NONE"):
     REST_API_KEY = secrets['REST_API_KEY']
-    REDIRECT_URI = 'http://118.67.131.34'
+    REDIRECT_URI = 'http://127.0.0.1:8000'
     _url = f'https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id={REST_API_KEY}&code={code}&redirect_uri={REDIRECT_URI}'
     _res = requests.post(_url)
     _result = _res.json()
