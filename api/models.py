@@ -54,3 +54,4 @@ class Store(Base):
     dong = Column("dong",String(30))
     longtitude = Column("longtitude",FLOAT)
     latitude = Column("latitude",FLOAT)
+    addr = Column("addr", String(100))

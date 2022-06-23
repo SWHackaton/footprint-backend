@@ -41,7 +41,8 @@ async def getAdress(longtitude: float, latitude: float, user_id: str, map_id: Op
                             img = store['img'],
                             dong = result['dong'],
                             latitude = latitude,
-                            longtitude = longtitude) for store in stores ]
+                            longtitude = longtitude,
+                            addr = result['address']) for store in stores ]
 
             db.add_all(db_stores)
             db.add(db_address)      
