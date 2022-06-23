@@ -33,7 +33,9 @@ def create_address_table(conn):
     cursor = conn.cursor()
     create_address_table_sql = '''CREATE TABLE address_tbl (
         map_id VARCHAR(30) PRIMARY KEY,
-        addr VARCHAR(100) NOT NULL
+        addr VARCHAR(100) NOT NULL,
+        longtitude FLOAT NOT NULL,
+        latitude FLOAT NOT NULL
     ) CHARSET=utf8;'''
     cursor.execute(create_address_table_sql)
     print("create_address_table complete")
@@ -77,6 +79,10 @@ def create_store_tbl(conn):
         map_id VARCHAR(30) NOT NULL,
         store_name VARCHAR(100),
         category VARCHAR(100),
+        img VARCHAR(200),
+        dong VARCHAR(30),
+        longtitude FLOAT NOT NULL,
+        latitude FLOAT NOT NULL
         FOREIGN KEY (map_id) REFERENCES address_tbl(map_id) ON UPDATE CASCADE
     ) CHARSET=utf8;'''
     cursor.execute(create_address_table_sql)

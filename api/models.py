@@ -52,3 +52,6 @@ class Store(Base):
     category = Column("category",String(100))
     img = Column("img",String(200))
     dong = Column("dong",String(30))
+    longtitude = Column("longtitude",FLOAT)
+    latitude = Column("latitude",FLOAT)
+    addr = Column("addr", String(100))

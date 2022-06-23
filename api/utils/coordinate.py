@@ -68,6 +68,6 @@ def coor_to_addr(longtitude, latitude):
         print(jsonObject['status'])
         raise ValueError("Invalid coordinates")
 
-    return {'address' : parse_object(jsonObject['results'][-1]),'map_id' : map_id}
+    return {'address' : parse_object(jsonObject['results'][-1]),'map_id' : map_id,'dong':jsonObject['results'][0]['region']['area3']['name']}
 
 
