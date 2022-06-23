@@ -1,5 +1,6 @@
 import json
 import requests
+import hashlib
 
 # 한글 주소 -> 좌표 변환 함수
 def addr_to_coor(addr):
@@ -34,6 +35,7 @@ def parse_object(object):
     if(object['land']['number2'] != ''):
         result = result + '-' + object['land']['number2']
     
+
     return result
 
 # 좌표 -> 한글 주소 변환 함수
@@ -55,11 +57,17 @@ def coor_to_addr(longtitude, latitude):
     
     jsonObject = json.loads(response.text)
 
+    input_string = jsonObject['results'][0]['land']['name'] + jsonObject['results'][0]['land']['number1'] + jsonObject['results'][0]['land']['number2']
+    enc = hashlib.md5()
+    enc.update(input_string.encode("utf-8"))
+    encText = enc.hexdigest()
+    map_id = str(int(encText,16))[:10]
+    
+    
     if(jsonObject['status']['code'] != 0):
         print(jsonObject['status'])
         raise ValueError("Invalid coordinates")
 
-    return parse_object(jsonObject['results'][-1])
-
+    return {'address' : parse_object(jsonObject['results'][-1]),'map_id' : map_id}
 
 
