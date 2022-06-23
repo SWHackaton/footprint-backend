@@ -23,6 +23,7 @@ class Visit(Base):
     visit_id = Column("visit_id",Integer,autoincrement=True,primary_key=True)
     user_id = Column("user_id",String(30),ForeignKey('user_tbl.user_id'))
     map_id = Column("map_id", String(30),ForeignKey("address_tbl.map_id"))
+    addr = Column("addr", String(100))
     store_name = Column("store_name",String(100),nullable=True)
     start_datetime = Column("start_datetime",DateTime)
     end_datetime = Column("end_datetime",DateTime,nullable=True)

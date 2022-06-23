@@ -44,6 +44,7 @@ def create_visit_table(conn):
         visit_id INT AUTO_INCREMENT PRIMARY KEY,
         user_id VARCHAR(30) NOT NULL,
         map_id VARCHAR(30) NOT NULL,
+        addr VARCHAR(100) NOT NULL,
         store_name VARCHAR(100),
         start_datetime datetime,
         end_datetime datetime,
