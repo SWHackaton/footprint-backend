@@ -3,7 +3,7 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
-from api.routers import auth_ro, gps_ro, diary_ro, store_ro
+from api.routers import auth_ro, gps_ro, diary_ro, store_ro, review_ro
 from api import models, database
 
 app = FastAPI()
@@ -20,6 +20,7 @@ app.include_router(auth_ro.router)
 app.include_router(gps_ro.router)
 app.include_router(diary_ro.router)
 app.include_router(store_ro.router)
+app.include_router(review_ro.router)
 
 
 models.Base.metadata.create_all(database.engine)
