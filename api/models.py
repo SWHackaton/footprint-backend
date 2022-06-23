@@ -55,3 +55,12 @@ class Store(Base):
     longitude = Column("longitude",FLOAT)
     latitude = Column("latitude",FLOAT)
     addr = Column("addr", String(100))
+
+
+class Review(Base):
+    __tablename__ = "review_tbl"
+    store_id = Column("review_id",Integer,autoincrement=True,primary_key=True)
+    store_name = Column("store_name",String(100))
+    img = Column("img",String(200))
+    addr = Column("addr", String(100))
+    content = Column("content",String(2000),nullable=True)
