@@ -79,7 +79,7 @@ def getVisit(user_id: str, date: date = None, db: Session = Depends(get_db)):
         date  = datetime.today().date().isoformat()
     date = str(date)
 
-    visit_list = db.query(Visit).filter_by(user_id=user_id).all()
+    visit_list = db.query(Visit).filter_by(user_id=user_id).order_by('start_datetime').all()
     result = []
 
     for visit in visit_list:
@@ -100,3 +100,19 @@ def getOneStore(visit_id: int, store_name: str,db: Session = Depends(get_db)):
     return {"status" : "1", "msg" : "ok"}
 
 
+@router.get("/love")
+def getLove(visit, db: Session = Depends(get_db)):
+    query = db.query(Visit).filter_by(visit_id=visit).first()
+    query.is_love = not query.is_love
+    db.add(query)
+    db.commit()
+    return {'status': 'ok'}
+
+
+@router.get("/memo")
+def getLove(visit, memo, db: Session = Depends(get_db)):
+    query = db.query(Visit).filter_by(visit_id=visit).first()
+    query.memo = memo
+    db.add(query)
+    db.commit()
+    return {'status': 'ok'}
